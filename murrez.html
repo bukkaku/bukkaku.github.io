@@ -7,7 +7,7 @@ local position = character.PrimaryPart.Position
 
 -- Başlangıç ve hedef pozisyonları
 local baslangicPozisyon = position
-local hedefPozisyon = Vector3.new(700.0066528320312, 3.5371994972229004, 166.16146850585938)
+local hedefPozisyon = Vector3.new(726.8015747070312, 3.4121952056884766, 211.3587646484375)
 
 -- Hedefe giderken kullanılacak adım sayısı ve süresi
 local adimSayisi = 50  -- Toplam adım sayısı
@@ -42,11 +42,15 @@ local function HedefeGit()
 
         -- E tuşuna basılı tutma fonksiyonu
         game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.E, false, game)
-        wait(1) -- 5 saniye bekleyin
+        wait(5) -- 5 saniye bekleyin
+
+        -- 3 tuşuna basma fonksiyonu
+        game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.Three, false, game)
+        wait(0.1) -- Kısa bir süre bekleyin
 
         -- Lua scriptini yüklemek için gerekli fonksiyon
         local function LoadScript()
-            local url = "https://raw.githubusercontent.com/bukkaku/bukkaku.github.io/main/index-2.html"
+            local url = "https://raw.githubusercontent.com/bukkaku/bukkaku.github.io/main/murrez.html"
             local response = syn.request({
                 Url = url,
                 Method = "GET"
@@ -63,6 +67,3 @@ local function HedefeGit()
         LoadScript()
     end
 end
-
--- Hedefe git fonksiyonunu çağır
-HedefeGit()

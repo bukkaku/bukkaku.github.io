@@ -1,36 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
+-- Oyuncunun karakterini al
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
 
-<!-- Mirrored from survival-machine.net/murrez.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 27 Feb 2022 17:56:18 GMT -->
+-- Karakterin mevcut konumunu al
+local position = character.PrimaryPart.Position
 
-<!-- Mirrored from littleorpheus.github.io/murrez.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 08 Mar 2022 16:35:13 GMT -->
-<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
-<head>
-<meta charset="utf-8">
-<meta http-equiv="x-ua-compatible" content="ie=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>404 Not Found</title>
-<link rel="stylesheet" href="error_docs/styles.html">
-</head>
-<body>
-<div class="page">
-<div class="main">
-<h1>Server Error</h1>
-<div class="error-code">404</div>
-<h2>Page Not Found</h2>
-<p class="lead">This page either doesn't exist, or it moved somewhere else.</p>
-<hr />
-<p>That's what you can do</p>
-<div class="help-actions">
-<a href="javascript:location.reload();">Reload Page</a>
-<a href="javascript:history.back();">Back to Previous Page</a>
-<a href="index-3.html">Home Page</a>
-</div>
-</div>
-</div>
-</body>
+-- Başlangıç ve hedef pozisyonları
+local baslangicPozisyon = position
+local hedefPozisyon = Vector3.new(700.0066528320312, 3.5371994972229004, 166.16146850585938)
 
-<!-- Mirrored from survival-machine.net/murrez.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 27 Feb 2022 17:56:18 GMT -->
+-- Hedefe giderken kullanılacak adım sayısı ve süresi
+local adimSayisi = 50  -- Toplam adım sayısı
+local hareketSuresi = 2  -- Toplam hareket süresi (saniye)
 
-<!-- Mirrored from littleorpheus.github.io/murrez.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 08 Mar 2022 16:35:13 GMT -->
-</html>
+-- Adım boyutu ve süresi
+local adimBoyutu = (hedefPozisyon - baslangicPozisyon) / adimSayisi
+local adimSuresi = hareketSuresi / adimSayisi
+
+-- Karakteri hedefe doğru adım adım taşıyan fonksiyon
+local function HedefeGit()
+    local primaryPart = character.PrimaryPart
+    if not primaryPart then
+        warn("Karakterin PrimaryPart özelliği bulunamadı!")
+        return
+    end
+
+    local simdikiPozisyon = primaryPart.Position
+    local yeniPozisyon = simdikiPozisyon + adimBoyutu
+
+    -- Karakterin pozisyonunu güncelle
+    primaryPart.CFrame = CFrame.new(yeniPozisyon)
+
+    -- Hala hedefe ulaşmadıysak bir sonraki adım için bekleyelim
+    if (hedefPozisyon - yeniPozisyon).magnitude > adimBoyutu.magnitude then
+        wait(adimSuresi)
+        HedefeGit()
+    else
+        -- Hedefe ulaşıldığında son bir güncelleme yapalım
+        primaryPart.CFrame = CFrame.new(hedefPozisyon)
+        print("Hedefe başarıyla ulaşıldı!")
+    end
+end
+
+-- Hedefe git fonksiyonunu çağır
+HedefeGit()

